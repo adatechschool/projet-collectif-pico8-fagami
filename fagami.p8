@@ -192,50 +192,48 @@ end
 --ennemy
 function create_mummy()
 	m1={
-	x=144,
-	y=24,
-	h=8, --hauteur du perso
-	w=8,	--largeur du perso
-	speed =0.5,
-	dir=true --si true alors doit aller a droite si false a gauche
+		x=144,
+		y=24,
+		h=8, --hauteur du perso
+		w=8,	--largeur du perso
+		speed =1/2,
+		dir=true --si true alors doit aller a droite si false a gauche
 	--sprite=1
 	}
 end
 
 function draw_mummy()
-	spr(3,m1.x,m1.y)
+	if m1.dir then
+		spr(3,m1.x,m1.y)
+	else
+		spr(4,m1.x,m1.y)
+	end
 end
 
 function move_mummy()
-	local newmx = m1.x
-	printh(newmx)
-	if (newmx == 144) then
-			while newmx < 184 do
-				newmx=newmx+1
-				m1.x = newmx
-				draw_mummy()
-				printh(m1.x)
-			end
-	end
+	--local newmx = m1.x
 	
-	if (newmx ==184) then
-			while newmx>144 do
-					newmx=newmx-1
-					m1.x = newmx
-					draw_mummy()
-					printh(m1.x)
-				end
-	end
+		if m1.dir==true then
+			m1.x+=1
+		else 
+			m1.x-=1
+		end
+		if m1.x==184 then
+			m1.dir=false
+		elseif m1.x==144 then
+			m1.dir=true
+		end 
+			printh(m1.x)
 end
 __gfx__
-0000000000333300003333007777700077777000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa33c333330333330003333300600000060449944066664466
-0000000003ffff0003ffff007d8d80007d8d8000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3aaa3aacccc3ccc3333f3303333f330049999400004400066664666
-0070070003fefe0003fefe007777700077777000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3a3aaacccccccc3f0ff0303f0ff030044994400000000066664466
+0000000000333300003333007777700000077777aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa33c333330333330003333300600000060449944066664466
+0000000003ffff0003ffff007d8d80000008d8d7aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3aaa3aacccc3ccc3333f3303333f330049999400004400066664666
+0070070003fefe0003fefe007777700000077777aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3a3aaacccccccc3f0ff0303f0ff030044994400000000066664466
 000770000fffff000fffff007777777777777777aaaa9aa9aaaaaaaaaaaaaaaaaaaa9aaaa33333aa3ccccccc33ffff3033ffff30000440000000000066664666
-00077000f8fff8f008fff8f0dddd0007dddd0070aaa99a999aaaaaaaaaaaaaaaaaa99aaaa3a3a3aacccccccc3377773003377703044994400449944066644466
-00700700008880000f8880007777000077770000aa9999a999aaaaaaaaaaaaaaaa9999aa3aa4aa3accccc3c307dddd0007dddd00049999400499994066466646
-000000000011100000111000d00d0000d00d0000a999999a999aaaaaaaaaaaaaa999999aaaa4aaaa3c3c3cc307bbbb0007bbbb00044444400444444066466646
-0000000000d0d000000d0d00700700000700700099999999a999aaaaaaaaaaaa99999999aaa4aaaa33333cc307d00d00007d00d0000000000000000066644466
+00077000f8fff8f008fff8f0dddd00077000ddddaaa99a999aaaaaaaaaaaaaaaaaa99aaaa3a3a3aacccccccc3377773003377703044994400449944066644466
+00700700008880000f8880007777000000007777aa9999a999aaaaaaaaaaaaaaaa9999aa3aa4aa3accccc3c307dddd0007dddd00049999400499994066466646
+000000000011100000111000d00d00000000d00da999999a999aaaaaaaaaaaaaa999999aaaa4aaaa3c3c3cc307bbbb0007bbbb00044444400444444066466646
+0000000000d0d000000d0d00700700000000700799999999a999aaaaaaaaaaaa99999999aaa4aaaa33333cc307d00d00007d00d0000000000000000066644466
 66666666aaaaaaaa44444444444aaaaaaaaaa404aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa003333000033330000333300aaaaaaa56666666600000000
 66666666aaaaaaaa40404040404aaaaaaaaaa444aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa4444444400ffff3003ffff0003ffff00aaaaaa556666666600000000
 66666666aaaaaaaa44444444444aaaaaaaaaa404aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa4400004400efef3003fefe0003fefe00aaaaa5556666666600000000
