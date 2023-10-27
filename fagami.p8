@@ -14,7 +14,9 @@ if #messages==0 then
 	update_cam()
 	update_msg()
 	pick_up_key(22,4)
-	move_mummy()
+	move_mummy(m1)
+	move_mummy(m2)
+	move_mummy(m3)
 end
 
 function _draw()
@@ -22,7 +24,9 @@ function _draw()
 	draw_map()
 	draw_perso1()
 	draw_msg()
-	draw_mummy()
+	draw_mummy(m1)
+	draw_mummy(m2)
+	draw_mummy(m3)
 end
 -->8
 --map
@@ -192,38 +196,69 @@ end
 --ennemy
 function create_mummy()
 	m1={
-		x=144,
-		y=24,
-		h=8, --hauteur du perso
-		w=8,	--largeur du perso
-		speed =1/2,
-		dir=true --si true alors doit aller a droite si false a gauche
-	--sprite=1
-	}
+		x=144,y=24,
+		h=8, 	w=8,	
+		speed =1,dir=true,--si true alors doit aller a droite si false a gauche
+		maxx=184,minx=144,
+		maxy=0,miny=0 
+		}
+	m2={
+		x=166,y=48,
+		h=8, 	w=8,	
+		speed =2,dir=false,--si true alors doit aller a droite si false a gauche
+		maxx=184,minx=144,
+		maxy=0,miny=0 
+		}
+	m3={
+		x=144,y=12,
+		h=8, 	w=8,	
+		speed =1,dir=false,--si true alors doit aller a droite si false a gauche
+		maxx=0,minx=0,
+		maxy=48,miny=8 
+		}	
+	
 end
 
-function draw_mummy()
-	if m1.dir then
-		spr(3,m1.x,m1.y)
+function draw_mummy(mummy)
+	if mummy.dir then
+		spr(3,mummy.x,mummy.y)
 	else
-		spr(4,m1.x,m1.y)
+		spr(4,mummy.x,mummy.y)
 	end
 end
 
-function move_mummy()
+function move_mummy(mummy)
 	--local newmx = m1.x
-	
-		if m1.dir==true then
-			m1.x+=1
-		else 
-			m1.x-=1
-		end
-		if m1.x==184 then
-			m1.dir=false
-		elseif m1.x==144 then
-			m1.dir=true
-		end 
-			printh(m1.x)
+		
+		if mummy.maxy==0 
+		and mummy.miny==0 then	
+			if mummy.dir==true then
+				mummy.x+=mummy.speed
+			else 
+				mummy.x-=mummy.speed
+			end
+			if mummy.x==mummy.maxx then
+				mummy.dir=false
+			elseif mummy.x==mummy.minx then
+				mummy.dir=true
+			end
+			 
+		elseif mummy.maxx==0 
+		and mummy.minx==0 then	
+		
+			if mummy.dir==true then
+				mummy.y+=mummy.speed
+			else 
+				mummy.y-=mummy.speed
+			end
+			
+			if mummy.y==mummy.maxy then
+				mummy.dir=false
+			elseif mummy.y==mummy.miny then
+				mummy.dir=true
+			end
+		end  
+
 end
 __gfx__
 0000000000333300003333007777700000077777aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa33c333330333330003333300600000060449944066664466
