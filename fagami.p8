@@ -25,7 +25,6 @@ function _draw()
 	draw_map()
 	draw_perso1()
 	draw_msg()
-	--draw_msg_win()
 	draw_mummy(m1)
 	draw_mummy(m2)
 	draw_mummy(m3)
@@ -41,7 +40,6 @@ function update_cam()
 	local camy=p1.y-32
 	camera(camx,camy)
 end
-
 
 
 -->8
@@ -79,7 +77,6 @@ end
 function move_p1()
 	newx = p1.x
 	newy = p1.y
-	
 	
 	if (btn(➡️))then
 				newx=newx+1
