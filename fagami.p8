@@ -6,6 +6,7 @@ function _init()
 	init_msg()
 	init_msg_win()
 	create_mummy()
+	score=0
 end
 
 function _update()
@@ -17,8 +18,10 @@ function _update()
 	 update_msg()
 		update_msg_win()
 		move_mummy(m1)	
-		--move_mummy(m2)
-		--move_mummy(m3)
+		move_mummy(m2)
+		move_mummy(m3)
+		move_mummy(m4)
+		
 end
 
 function _draw()
@@ -28,8 +31,10 @@ function _draw()
 	draw_mummy(m1)
 	draw_perso1()
 	draw_msg_win()
-	--draw_mummy(m2)
-	--draw_mummy(m3)
+	draw_mummy(m2)
+	draw_mummy(m3)
+	draw_mummy(m4)
+	update_keys()
 end
 -->8
 --map
@@ -43,15 +48,14 @@ function update_cam()
 	camera(camx,camy)
 end
 
-function new_tile(x,y)
-	local sprite=mget(x,y)
-	mset(x,y,16)
+function update_keys()
+	local camx=p1.x-64
+	local camy=p1.y-32
+	print_keys="clefs : "..p1.keys.."/2"
+	rectfill(camx,camy,camx+50,camy+10,0)
+	print(print_keys,camx+2,camy+2,7)
 end
 
-function pick_up_key(x,y)
-	new_tile(x,y)
-	p1.keys+=1
-end 
 
 -->8
 --perso
@@ -127,7 +131,7 @@ function move_p1()
 	--quand on touche la momie, on repart a 0
 	if check_flag(p1,p1.dir,2) then
 		mset(22,4,15)
-		mset(38,8,15)
+		mset(60,8,15)
 		p1.keys=0
 		_init()
 	end	
@@ -227,19 +231,29 @@ function create_mummy()
 		maxx=184,minx=144,
 		maxy=0,miny=0 
 		}
+		
 	m2={
-		x=166,y=48,
-		h=8, 	w=8,	
-		speed =2,dir=false,--si true alors doit aller a droite si false a gauche
-		maxx=184,minx=144,
-		maxy=0,miny=0 
-		}
-	m3={
 		x=144,y=12,
 		h=8, 	w=8,	
 		speed =1,dir=false,--si true alors doit aller a droite si false a gauche
 		maxx=0,minx=0,
 		maxy=48,miny=8 
+		}
+		
+	m3={
+		x=232,y=120,
+		h=8, 	w=8,	
+		speed =1,dir=false,--si true alors doit aller a droite si false a gauche
+		maxx=0,minx=0,
+		maxy=120,miny=56 
+		}	
+	
+	m4={
+		x=264,y=56,
+		h=8, 	w=8,	
+		speed =1,dir=true,--si true alors doit aller a droite si false a gauche
+		maxx=0,minx=0,
+		maxy=120,miny=56 
 		}	
 	
 end
@@ -490,3 +504,8 @@ __map__
 1535363738151515151515151515152728272827151617181626162625262526151515151525262517172625262526262526252625262526252625262526151615161516151626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626
 __sfx__
 01011500000001f000256002000028000240002b000250002f0002b00027000015000050000500005000050000500005000000000000000000000000000000000000000000000000000000000000000000000000
+001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00140000210002100023000280002c0002d0002d00027000240002300022000230002400029000290002900029000270002700027000270002700027000280002d00030000320003300034000340003300033000
