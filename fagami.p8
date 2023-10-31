@@ -6,6 +6,9 @@ function _init()
 	init_msg()
 	init_msg_win()
 	create_mummy()
+	--mset(8,3,3)
+	printh(m1.x)
+	printh(m1.y)
 end
 
 function _update()
@@ -16,7 +19,7 @@ function _update()
 		update_cam()
 	 update_msg()
 		update_msg_win()
-		--move_mummy(m1)
+		move_mummy(m1)	
 		--move_mummy(m2)
 		--move_mummy(m3)
 end
@@ -24,9 +27,9 @@ end
 function _draw()
 	cls()
 	draw_map()
-	draw_perso1()
 	draw_msg()
 	draw_mummy(m1)
+	draw_perso1()
 	draw_msg_win()
 	--draw_mummy(m2)
 	--draw_mummy(m3)
@@ -85,28 +88,32 @@ function move_p1()
 	if (btn(➡️))then
 				newx=newx+1
 			p1.dir = "right"
-	end
 	
-	if (btn(⬅️))then
+	elseif (btn(⬅️))then
 				newx=newx-1
 				p1.dir = "left"
-	end
 	
-	if (btn(⬆️))then
+	elseif (btn(⬆️))then
 				newy=newy-1
 				p1.dir = "up"
-	end
 	
-	if (btn(⬇️))then
+	elseif (btn(⬇️))then
 				newy=newy+1
 				p1.dir = "down"
 	end
+		
 	
 	--verifie si on touche le flag collision
 	if not (check_flag(p1,p1.dir,0)) then
 		p1.x =mid(0,newx,127*8)
 		p1.y =mid(0,newy,63*8)
 	end
+	
+	--quand on touche la momie, on repart a 0
+	if check_flag(p1,p1.dir,2) then
+		p1.x=12
+		p1.y=20
+	end	
 
 	--ramasser objet
 	if check_flag(p1,p1.dir,1) then
@@ -117,13 +124,8 @@ function move_p1()
 		p1.keys+=1
 		mset(38,8,30)
 	end
-
---quand on touche la momie, on repart a 0
-	if check_flag(p1,p1.dir,2) then
-		p1.x=12
-		p1.y=20
-	end		
-		
+	
+	
 	if (check_flag(p1,p1.dir,3))then	
 		create_msg_win("victoire", "test")
 		p1.win =1
@@ -154,15 +156,15 @@ function check_flag(perso,aim,flag)
 				
 	elseif aim=="right" then
 				x1=x+w  		y1=y
-				x2=x+1+w  y2=y+h-1
+				x2=x+w-1  		y2=y+h-1
 				
 	elseif aim=="up" then
-				x1=x+1    y1=y-1
-				x2=x-1+w    y2=y
-	
+				x1=x    		y1=y-1
+				--x2=x-1+w    y2=y
+				x2=x+w-1    		y2=y
 	elseif aim=="down" then
-   	x1=x    y1=y+h
-				x2=x+w    y2=y+h
+   	x1=x   		 y1=y+h-1
+				x2=x+w-1    y2=y+h
 	end
 	
 	x1/=8			y1/=8
@@ -217,7 +219,7 @@ end
 --ennemy
 function create_mummy()
 	m1={
-		x=144,y=24,
+		x=144,y=24, 
 		h=8, 	w=8,	
 		speed =1,dir=true,--si true alors doit aller a droite si false a gauche
 		maxx=184,minx=144,
@@ -243,13 +245,15 @@ end
 function draw_mummy(mummy)
 	if mummy.dir then
 		spr(3,mummy.x,mummy.y,1,1,false,false)
+		mset(mummy.x/8,mummy.y/8,3)
 	else
 		spr(3,mummy.x,mummy.y,1,1,true,false)
+		mset(mummy.x/8,mummy.y/8,3)
 	end
 end
 
 function move_mummy(mummy)
-
+		mset(mummy.x/8,mummy.y/8,16)
 		--verifie si mvt en y=0
 		if mummy.maxy==0 
 		and mummy.miny==0 then	
@@ -280,6 +284,7 @@ function move_mummy(mummy)
 				mummy.dir=true
 			end
 		end  
+		
 
 end
 -->8
@@ -321,7 +326,7 @@ __gfx__
 0000000003ffff0003ffff007d8d800000000000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3aaa3aacccc3ccc3333f3303333f330049999400004400066664666
 0070070003fefe0003fefe007777700000000000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3a3aaacccccccc3f0ff0303f0ff030044994400000000066664466
 000770000fffff000fffff007777777700000000aaaa9aa9aaaaaaaaaaaaaaaaaaaa9aaaa33333aa3ccccccc33ffff3033ffff30000440000000000066664666
-00077000f8fff8f008fff8f0dddd000700000000aaa99a999aaaaaaaaaaaaaaaaaa99aaaa3a3a3aacccccccc3377773003377703044994400449944066644466
+00077000f8fff88f08fff88fdddd000700000000aaa99a999aaaaaaaaaaaaaaaaaa99aaaa3a3a3aacccccccc3377773003377703044994400449944066644466
 00700700008880000f8880007777000000000000aa9999a999aaaaaaaaaaaaaaaa9999aa3aa4aa3accccc3c307dddd0007dddd00049999400499994066466646
 000000000011100000111000d00d000000000000a999999a999aaaaaaaaaaaaaa999999aaaa4aaaa3c3c3cc307bbbb0007bbbb00044444400444444066466646
 0000000000d0d000000d0d00700700000000000099999999a999aaaaaaaaaaaa99999999aaa4aaaa33333cc307d00d00007d00d0000000000000000066644466
@@ -329,7 +334,7 @@ __gfx__
 66666666aaaaaaaa40404040404aaaaaaaaaa444aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa4444444400ffff3003ffff0003ffff00aaaaaa556666666600000000
 66666666aaaaaaaa44444444444aaaaaaaaaa404aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa4400004400efef3003fefe0003fefe00aaaaa5556666666600000000
 66666666aaaaaaaaaaaaaaaa404aaaaaaaaaa444aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa4444444400fffff0fffffff00fffff00aaaaaa556666666600000000
-66666666aaaaaaaaaaaaaaaa444aaaaaaaaaa404aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa400000040f8fff8008fff80008fff800aaaaaaa56666666600000000
+66666666aaaaaaaaaaaaaaaa444aaaaaaaaaa404aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa40000004f88fff8008fff80008fff800aaaaaaa56666666600000000
 6666666644444444aaaaaaaa404aaaaaaaaaa444aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa44444444000888f000888000f08880f0aaaaaaa56666666600000000
 6666666604040404aaaaaaaa444aaaaaaaaaa404aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa44aaa000111000011100000111000aaaaaaa56666666600000000
 6666666644444444aaaaaaaa404aaaaaaaaaa444aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa44aaa00d0d00000d0d00000d0d000aaaaaaa56666666600000000
@@ -446,7 +451,7 @@ aaaaa404404aaaaaaaaaa444444aaaaa699aaa96aaaaaaaaaaaaaaaaaaaaaaaaaaa9999a00000000
 72827282728272827282728272827282728272827282718171817181718172827282728272827181718171817181718171817181718171817181718171817181
 71817181718171817181718171817181718171817181718172827282728272827181718171817181718171817181718172827282718171817181718171817181
 __gff__
-0000000500000000000100000002000200010101010000000003000000000000010001010100000000000000000000000101010108000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000400000000000100000002000200010101010000000003000000000000010001010100000000000000000000000101010108000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 __map__
 0715161718072311111111241617181718231111111111112428272827281516171805060708272827282728272827282728272827282728272827282728272827282728272827282728272827282728272827282728272817180515171817182728272827282728272827282728272808161705272827282728272827282728
