@@ -134,10 +134,11 @@ function move_p1()
 	--quand on touche la momie, on repart a 0
 	if check_flag(p1,p1.dir,2) then
 		mset(22,4,15)
-		mset(38,8,15)
+		mset(60,8,15)
 		sfx(1)
 		p1.keys=0
-		_init()
+		p1.x=12
+		p1.y=20
 	end	
 
 		-- creation du message de fin
