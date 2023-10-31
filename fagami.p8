@@ -6,6 +6,7 @@ function _init()
 	init_msg()
 	init_msg_win()
 	create_mummy()
+	score=0
 end
 
 function _update()
@@ -17,8 +18,10 @@ function _update()
 	 update_msg()
 		update_msg_win()
 		move_mummy(m1)	
-		--move_mummy(m2)
-		--move_mummy(m3)
+		move_mummy(m2)
+		move_mummy(m3)
+		move_mummy(m4)
+		
 end
 
 function _draw()
@@ -28,8 +31,10 @@ function _draw()
 	draw_mummy(m1)
 	draw_perso1()
 	draw_msg_win()
-	--draw_mummy(m2)
-	--draw_mummy(m3)
+	draw_mummy(m2)
+	draw_mummy(m3)
+	draw_mummy(m4)
+	update_keys()
 end
 -->8
 --map
@@ -43,15 +48,14 @@ function update_cam()
 	camera(camx,camy)
 end
 
-function new_tile(x,y)
-	local sprite=mget(x,y)
-	mset(x,y,16)
+function update_keys()
+	local camx=p1.x-64
+	local camy=p1.y-32
+	print_keys="clefs : "..p1.keys.."/2"
+	rectfill(camx,camy,camx+50,camy+10,0)
+	print(print_keys,camx+2,camy+2,7)
 end
 
-function pick_up_key(x,y)
-	new_tile(x,y)
-	p1.keys+=1
-end 
 
 -->8
 --perso
@@ -229,19 +233,29 @@ function create_mummy()
 		maxx=184,minx=144,
 		maxy=0,miny=0 
 		}
+		
 	m2={
-		x=166,y=48,
-		h=8, 	w=8,	
-		speed =2,dir=false,--si true alors doit aller a droite si false a gauche
-		maxx=184,minx=144,
-		maxy=0,miny=0 
-		}
-	m3={
 		x=144,y=12,
 		h=8, 	w=8,	
 		speed =1,dir=false,--si true alors doit aller a droite si false a gauche
 		maxx=0,minx=0,
 		maxy=48,miny=8 
+		}
+		
+	m3={
+		x=232,y=120,
+		h=8, 	w=8,	
+		speed =1,dir=false,--si true alors doit aller a droite si false a gauche
+		maxx=0,minx=0,
+		maxy=120,miny=56 
+		}	
+	
+	m4={
+		x=264,y=56,
+		h=8, 	w=8,	
+		speed =1,dir=true,--si true alors doit aller a droite si false a gauche
+		maxx=0,minx=0,
+		maxy=120,miny=56 
 		}	
 	
 end
