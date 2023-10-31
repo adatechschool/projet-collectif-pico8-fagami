@@ -6,9 +6,6 @@ function _init()
 	init_msg()
 	init_msg_win()
 	create_mummy()
-	--mset(8,3,3)
-	printh(m1.x)
-	printh(m1.y)
 end
 
 function _update()
@@ -46,6 +43,15 @@ function update_cam()
 	camera(camx,camy)
 end
 
+function new_tile(x,y)
+	local sprite=mget(x,y)
+	mset(x,y,16)
+end
+
+function pick_up_key(x,y)
+	new_tile(x,y)
+	p1.keys+=1
+end 
 
 -->8
 --perso
@@ -58,7 +64,7 @@ function create_perso1()
 	speed=1,
 	keys=0,
 	dir = "",
-	win=0 
+	win=0
 	--sprite=1
 	}
 end
@@ -83,7 +89,6 @@ end
 function move_p1()
 	newx = p1.x
 	newy = p1.y
-	local test=0
 	
 	if (btn(➡️))then
 				newx=newx+1
@@ -109,34 +114,30 @@ function move_p1()
 		p1.y =mid(0,newy,63*8)
 	end
 	
+	--ramasser objet
+	if check_flag(p1,p1.dir,1) and 
+			mget(p1.x/8,p1.y/8) ==15 then
+			mset (p1.x/8,p1.y/8,16)
+			p1.keys+=1
+			printh(p1.keys)
+	end
+				
+	
+	
 	--quand on touche la momie, on repart a 0
 	if check_flag(p1,p1.dir,2) then
-		p1.x=12
-		p1.y=20
+		mset(22,4,15)
+		mset(38,8,15)
+		p1.keys=0
+		_init()
 	end	
 
-	--ramasser objet
-	if check_flag(p1,p1.dir,1) then
-		p1.keys+=1
-		mset(22,4,30)
-	end	
-	if check_flag(p1,p1.dir,1) then
-		p1.keys+=1
-		mset(38,8,30)
-	end
-	
-	
-	if (check_flag(p1,p1.dir,3))then	
+	--verifie le flag du graal et affiche un msg
+	if (check_flag(p1,p1.dir,3)) and p1.keys==2 and p1.keys==2 then	
 		create_msg_win("victoire", "test")
 		p1.win =1
-end
+	end
 		
-		
-		
---verifie le flag du graal et affiche un msg
---	if (check_flag(p1,p1.dir,3)) then
-
---	end
 end		
 
 	
@@ -163,7 +164,7 @@ function check_flag(perso,aim,flag)
 				--x2=x-1+w    y2=y
 				x2=x+w-1    		y2=y
 	elseif aim=="down" then
-   	x1=x   		 y1=y+h-1
+   	x1=x   				 y1=y+h-1
 				x2=x+w-1    y2=y+h
 	end
 	
